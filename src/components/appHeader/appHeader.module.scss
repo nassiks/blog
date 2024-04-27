@@ -1,0 +1,29 @@
+.appHeaderContainer {
+  height: 80px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+  padding: 15px 22px;
+}
+
+.appHeaderButton {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.appHeaderButtonGreen {
+  color: #52c41a;
+  border-color: #52c41a;
+  &:hover {
+    color: #52c41a;
+    border-color: #52c41a;
+  }
+  &:active {
+    color: #52c41a;
+    border-color: #52c41a;
+  }
+}

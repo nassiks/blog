@@ -1,0 +1,39 @@
+.articleItem{
+  margin-bottom: 26px;
+}
+.articleItemHeader{
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 13px;
+  align-items: center;
+}
+
+.articleItemBody{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.articleItemTags{
+  display: flex;
+  flex-direction: row;
+}
+
+.articleItemAuthorInfo{
+  display: flex;
+  flex-direction: column;
+}
+
+.articleItemAuthor{
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.articleItemLikes{
+  padding-right: 5px;
+  cursor: pointer;
+}
