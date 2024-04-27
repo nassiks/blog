@@ -5,6 +5,7 @@ import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { useDispatch } from '../../hooks/useTypedSelector'
 import { fetchArticle, setArticleList } from '../../store/action-creators/articles'
 import ArticleItem from '../articleItem/articleItem'
+import formatDate from '../../utils/formatDate'
 
 import styles from './articleList.module.scss'
 
@@ -43,12 +44,13 @@ const ArticleList: React.FC = () => {
         renderItem={(article) => (
           <ArticleItem
             key={article.slug}
+            slug={article.slug}
             title={article.title}
             description={article.description}
             tags={article.tagList}
             avatar={article.author.image}
             author={article.author.username}
-            date={new Date(article.createdAt).toLocaleDateString()}
+            date={formatDate(article.createdAt)}
             likes={article.favoritesCount}
           />
         )}

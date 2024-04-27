@@ -1,9 +1,11 @@
 import React from 'react'
 import { Row, Col, Typography, Tag, Avatar, Card } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 import styles from './articleItem.module.scss'
 
 interface ArticleItemProps {
+  slug: string
   title: string
   description: string
   tags: string[]
@@ -13,14 +15,22 @@ interface ArticleItemProps {
   likes: number
 }
 
-const { Title, Text } = Typography
-const ArticleItem: React.FC<ArticleItemProps> = ({ title, description, tags, avatar, author, date, likes }) => {
+const { Text } = Typography
+const ArticleItem: React.FC<ArticleItemProps> = ({ slug, title, description, tags, avatar, author, date, likes }) => {
+  const navigate = useNavigate()
+
+  const navigateToArticle = () => {
+    navigate(`/articles/${slug}`)
+  }
+
   return (
     <Card className={styles['articleItem']}>
       <Row justify="space-between" style={{ width: '100%' }}>
         <Col span={20}>
           <div className={styles['articleItemHeader']}>
-            <Title level={2}>{title}</Title>
+            <h2 onClick={navigateToArticle} className={styles['articleItemHeaderTitle']}>
+              {title}
+            </h2>
             <div>
               <span role="img" aria-label="like" className={styles['articleItemLikes']}>
                 &#9825;

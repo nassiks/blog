@@ -22,6 +22,24 @@ export const fetchArticle = (page = 1, limit = 5) => {
   }
 }
 
+export const fetchArticleBySlug = (slug: string) => {
+  return async (dispatch: Dispatch<ArticleAction>) => {
+    try {
+      dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_BY_SLUG })
+      const response = await axios.get(`https://blog.kata.academy/api/articles/${slug}`)
+      dispatch({
+        type: ArticleActionTypes.FETCH_ARTICLE_BY_SLUG_SUCCESS,
+        payload: response.data.article,
+      })
+    } catch (e) {
+      dispatch({
+        type: ArticleActionTypes.FETCH_ARTICLE_BY_SLUG_ERROR,
+        payload: 'Произошла ошибка при загрузке статьи',
+      })
+    }
+  }
+}
+
 export function setArticleList(page: number): ArticleAction {
   return { type: ArticleActionTypes.SET_ARTICLES_PAGE, payload: page }
 }

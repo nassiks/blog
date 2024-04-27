@@ -29,11 +29,6 @@ ul,ol,li{
     list-style: none;
 }
 
-:where(.css-dev-only-do-not-override-mzwlov).ant-btn-default:not(:disabled):not(.ant-btn-disabled):active{
-    color: #52c41a;
-    border-color: #52c41a;
-}
-:where(.css-dev-only-do-not-override-mzwlov).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover{
-    color: #52c41a;
-    border-color: #52c41a;
+.ant-card .ant-card-body {
+    padding: 15px 14px 15px 16px;
 }

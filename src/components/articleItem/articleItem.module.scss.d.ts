@@ -6,6 +6,7 @@ export interface ArticleItemModuleScss {
   articleItemTags: string
   articleItemAuthor: string
   articleItemLikes: string
+  articleItemHeaderTitle: string
 }
 
 declare const styles: ArticleItemModuleScss
