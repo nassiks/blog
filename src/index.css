@@ -30,5 +30,9 @@ ul,ol,li{
 }
 
 .ant-card .ant-card-body {
-    padding: 15px 14px 15px 16px;
+   padding: 0;
+}
+
+.ant-form-item {
+    margin-bottom: 0;
 }

@@ -13,8 +13,6 @@ const ArticleList: React.FC = () => {
   const { articles, loading, error, page, articlesCount } = useTypedSelector((state) => state.articles)
   const dispatch = useDispatch()
 
-  console.log(articles)
-
   useEffect(() => {
     dispatch(fetchArticle(page))
   }, [page, dispatch])

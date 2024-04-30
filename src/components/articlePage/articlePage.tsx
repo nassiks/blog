@@ -32,7 +32,6 @@ const ArticlePage: React.FC = () => {
   if (error) {
     return <Alert message="Error" description={error} type="error" showIcon closable />
   }
-  console.log(currentArticle)
 
   return (
     <Card className={styles['articleItem']} style={{ height: '807px' }}>

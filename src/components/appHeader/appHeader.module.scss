@@ -7,6 +7,10 @@
   align-items: center;
   margin-bottom: 26px;
   padding: 15px 22px;
+
+  .appHeaderTitle {
+    cursor: pointer;
+  }
 }
 
 .appHeaderButton {
@@ -25,5 +29,21 @@
   &:active {
     color: #52c41a;
     border-color: #52c41a;
+  }
+}
+
+.appHeaderAuth{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  gap: 27px;
+
+  .appHeaderAuthAuthor{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 13px;
   }
 }
