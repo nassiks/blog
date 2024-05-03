@@ -9,6 +9,11 @@ export interface ArticlePageModuleScss {
   articleItemHeaderTitle: string
   articleItemAuthorButton: string
   articleItemAuthorContainer: string
+  articleItemHeaderLikes: string
+  articleItemBodyDescription: string
+  articleItemText: string
+  articleItemAuthorEdit: string
+  articleItemAuthorUsername: string
 }
 
 declare const styles: ArticlePageModuleScss

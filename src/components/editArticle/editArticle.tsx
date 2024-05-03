@@ -51,9 +51,9 @@ const EditArticle: React.FC = () => {
   }
 
   return (
-    <Card className={styles['addArticleFormContainer']}>
-      <h2 className={styles['addArticleFormTitle']}>Edit article</h2>
-      <Form layout="vertical" className={styles['addArticleForm']} onFinish={handleFinish}>
+    <Card className={styles['editArticleFormContainer']}>
+      <h2 className={styles['editArticleFormTitle']}>Edit article</h2>
+      <Form layout="vertical" className={styles['editArticleForm']} onFinish={handleFinish}>
         <Form.Item label="Title" name="title" rules={[{ required: true, message: 'Please input title!' }]}>
           <Input placeholder="Title" />
         </Form.Item>
@@ -67,30 +67,32 @@ const EditArticle: React.FC = () => {
         </Form.Item>
 
         <Form.Item label="Text" name="body" rules={[{ required: true, message: 'Please input text!' }]}>
-          <Input.TextArea placeholder="Text" className={styles['addArticleFormTextarea']} />
+          <Input.TextArea placeholder="Text" className={styles['editArticleFormTextarea']} />
         </Form.Item>
 
-        <div className={styles['addArticleFormTagsContainer']}>
+        <div className={styles['editArticleFormTagsContainer']}>
           <Form.Item label="Tags" name="tags" rules={[{ required: false }]}>
             <Space direction="vertical" wrap>
               {tags.map((tag, index) => (
-                <div key={index}>
-                  <Tag className={styles['addArticleFormTags']}>{tag}</Tag>
-                  <Button key="delete" onClick={() => handleDeleteTag(tag)}>
+                <div key={index} className={styles['editArticleFormTagsDelete']}>
+                  <Tag className={styles['editArticleFormTags']}>{tag}</Tag>
+                  <Button danger size="middle" key="delete" onClick={() => handleDeleteTag(tag)}>
                     Delete
                   </Button>
                 </div>
               ))}
-              <div>
+              <div className={styles['editArticleFormTagsAdd']}>
                 <Input value={inputTag} onChange={(e) => setInputTag(e.target.value)} placeholder="Tag" />
-                <Button onClick={handleAddTag}>Add Tag</Button>
+                <Button type="primary" ghost size="middle" onClick={handleAddTag}>
+                  Add Tag
+                </Button>
               </div>
             </Space>
           </Form.Item>
         </div>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className={styles['addArticleFormButtonSend']}>
+          <Button type="primary" htmlType="submit" className={styles['editArticleFormButtonSend']}>
             Send
           </Button>
         </Form.Item>

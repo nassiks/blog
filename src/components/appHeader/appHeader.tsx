@@ -12,7 +12,6 @@ const AppHeader: React.FC = () => {
   const { user } = useTypedSelector((state) => state.users)
   const { navigateToArticle, navigateToProfile, navigateToSignIn, navigateToSignUp, navigateToCreateArticle } =
     useNavigation()
-  console.log('User >> ', user)
   const dispatch = useDispatch()
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -28,19 +27,23 @@ const AppHeader: React.FC = () => {
       </Title>
       {user ? (
         <div className={styles['appHeaderAuth']}>
-          <Button onClick={navigateToCreateArticle}>Create article</Button>
+          <Button size="middle" onClick={navigateToCreateArticle} className={styles['appHeaderButtonCreate']}>
+            Create article
+          </Button>
           <div className={styles['appHeaderAuthAuthor']} onClick={navigateToProfile}>
             <Text>{user.username}</Text>
             <Avatar size={46} src={user.image} />
           </div>
-          <Button onClick={handleLogout}>Log Out</Button>
+          <Button size="large" onClick={handleLogout} className={styles['appHeaderButtonLogOut']}>
+            Log Out
+          </Button>
         </div>
       ) : (
         <div className={styles['appHeaderButton']}>
-          <Button type="default" onClick={navigateToSignIn}>
+          <Button size="large" className={styles['appHeaderButtonSignIn']} onClick={navigateToSignIn}>
             Sign In
           </Button>
-          <Button className={styles['appHeaderButtonGreen']} onClick={navigateToSignUp}>
+          <Button size="large" className={styles['appHeaderButtonSignUp']} onClick={navigateToSignUp}>
             Sign Up
           </Button>
         </div>

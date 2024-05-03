@@ -22,19 +22,10 @@ export const authUser = (email: string, password: string, onSuccess: () => void)
       }
       onSuccess()
     } catch (e) {
-      if (axios.isAxiosError(e) && e.response) {
-        console.error('Ошибка авторизации:', e.response.data)
-        dispatch({
-          type: UsersActionTypes.LOGIN_USER_ERROR,
-          payload: e.response.data.errors ? JSON.stringify(e.response.data.errors) : 'Unknown error',
-        })
-      } else {
-        console.error('Ошибка сети или другая ошибка:', e)
-        dispatch({
-          type: UsersActionTypes.LOGIN_USER_ERROR,
-          payload: 'Network or other error',
-        })
-      }
+      dispatch({
+        type: UsersActionTypes.LOGIN_USER_ERROR,
+        payload: 'Login error',
+      })
     }
   }
 }

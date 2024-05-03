@@ -12,10 +12,10 @@ import styles from './articleList.module.scss'
 const ArticleList: React.FC = () => {
   const { articles, loading, error, page, articlesCount } = useTypedSelector((state) => state.articles)
   const dispatch = useDispatch()
-
+  const { token } = useTypedSelector((state) => state.users)
   useEffect(() => {
-    dispatch(fetchArticle(page))
-  }, [page, dispatch])
+    dispatch(fetchArticle(page, 5, token))
+  }, [page, dispatch, token])
 
   if (loading) {
     return (
@@ -30,12 +30,12 @@ const ArticleList: React.FC = () => {
   }
 
   const handlePageChange = (page: number) => {
-    dispatch(fetchArticle(page))
+    dispatch(fetchArticle(page, 5, token))
     dispatch(setArticleList(page))
   }
 
   return (
-    <div>
+    <div className={styles['articleListContainer']}>
       <List
         itemLayout="horizontal"
         dataSource={articles}
@@ -50,6 +50,7 @@ const ArticleList: React.FC = () => {
             author={article.author.username}
             date={formatDate(article.createdAt)}
             likes={article.favoritesCount}
+            favorited={article.favorited}
           />
         )}
       />

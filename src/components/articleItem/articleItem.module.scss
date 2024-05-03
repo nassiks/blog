@@ -1,48 +1,71 @@
+@import "../../assets/sass/_vars";
+
 .articleItem{
   margin-bottom: 26px;
   padding: 15px 14px 24px 16px;
-}
-.articleItemHeader{
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: row;
-  margin-bottom: 5px;
-  gap: 13px;
-  align-items: center;
+  box-shadow: $boxShadowItem;
+
+  .articleItemHeader{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin-bottom: 5px;
+    padding: 3px 0;
+    gap: 13px;
+    align-items: center;
+
+    .articleItemHeaderTitle{
+      color: $infoColor;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 28px;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .articleItemHeaderLikes{
+      border: none;
+      box-shadow: none;
+      width: 16px;
+      height: 14px;
+      padding: 0;
+      margin-right: 3px;
+    }
+  }
+
+  .articleItemBody{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .articleItemTags{
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  .articleItemAuthor{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-direction: row;
+    gap: 12px;
+
+    .articleItemAuthorInfo{
+      display: flex;
+      flex-direction: column;
+
+      .articleItemAuthorUsername{
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 28px;
+      }
+
+      .articleItemAuthorDate{
+        font-size: 12px;
+        line-height: 22px;
+      }
+    }
+  }
 }
 
-.articleItemBody{
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.articleItemTags{
-  display: flex;
-  flex-direction: row;
-}
-
-.articleItemAuthorInfo{
-  display: flex;
-  flex-direction: column;
-}
-
-.articleItemAuthor{
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  flex-direction: row;
-  gap: 12px;
-}
-
-.articleItemLikes{
-  padding-right: 5px;
-  cursor: pointer;
-}
-
-.articleItemHeaderTitle{
-  color: #1890FF;
-  font-size: 20px;
-  line-height: 28px;
-  cursor: pointer;
-}

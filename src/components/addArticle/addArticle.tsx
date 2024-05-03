@@ -62,16 +62,18 @@ const AddArticle: React.FC = () => {
           <Form.Item label="Tags" name="tags" rules={[{ required: false }]}>
             <Space direction="vertical" wrap>
               {tags.map((tag, index) => (
-                <div key={index}>
+                <div key={index} className={styles['addArticleFormTagsDelete']}>
                   <Tag className={styles['addArticleFormTags']}>{tag}</Tag>
-                  <Button key="delete" onClick={() => handleDeleteTag(tag)}>
+                  <Button danger size="middle" key="delete" onClick={() => handleDeleteTag(tag)}>
                     Delete
                   </Button>
                 </div>
               ))}
-              <div>
+              <div className={styles['addArticleFormTagsAdd']}>
                 <Input value={inputTag} onChange={(e) => setInputTag(e.target.value)} placeholder="Tag" />
-                <Button onClick={handleAddTag}>Add Tag</Button>
+                <Button type="primary" ghost size="middle" onClick={handleAddTag}>
+                  Add Tag
+                </Button>
               </div>
             </Space>
           </Form.Item>

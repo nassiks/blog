@@ -3,7 +3,6 @@ export interface FormModuleScss {
   formTitle: string
   formSign: string
   formButton: string
-  formCheckbox: string
   formLink: string
 }
 

@@ -1,3 +1,5 @@
+@import "../../assets/sass/_vars";
+
 .appHeaderContainer {
   height: 80px;
   background-color: white;
@@ -9,41 +11,69 @@
   padding: 15px 22px;
 
   .appHeaderTitle {
+    font-size: 18px;
     cursor: pointer;
   }
-}
 
-.appHeaderButton {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-}
-
-.appHeaderButtonGreen {
-  color: #52c41a;
-  border-color: #52c41a;
-  &:hover {
-    color: #52c41a;
-    border-color: #52c41a;
-  }
-  &:active {
-    color: #52c41a;
-    border-color: #52c41a;
-  }
-}
-
-.appHeaderAuth{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  gap: 27px;
-
-  .appHeaderAuthAuthor{
+  .appHeaderButton {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    gap: 20px;
+
+    .appHeaderButtonSignUp {
+      color: $successColor;
+      border-color: $successColor;
+      &:hover {
+        color: $successColor;
+        border-color: $successColor;
+      }
+    }
+    .appHeaderButtonSignIn{
+      color: $headingColor;
+      border: none;
+      box-shadow: none;
+      &:hover {
+        color: $infoColor;
+        border: none;
+      }
+    }
+  }
+
+  .appHeaderAuth{
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 13px;
+    justify-content: space-around;
+    gap: 27px;
+
+    .appHeaderButtonCreate{
+      color: $successColor;
+      border-color: $successColor;
+      &:hover {
+        color: $successColor;
+        border-color: $successColor;
+      }
+    }
+
+    .appHeaderButtonLogOut{
+      color: $headingColor;
+      border-color: $headingColor;
+      &:hover {
+        color: $headingColor;
+        border-color: $headingColor;
+      }
+    }
+
+    .appHeaderAuthAuthor{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      gap: 13px;
+      cursor: pointer;
+    }
   }
 }
+
+
+

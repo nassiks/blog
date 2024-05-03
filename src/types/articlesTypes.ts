@@ -8,6 +8,7 @@ export interface Article {
   createdAt: string
   author: Author
   favoritesCount: number
+  favorited: boolean
 }
 
 export interface Author {
@@ -40,6 +41,9 @@ export enum ArticleActionTypes {
   DELETE_ARTICLE = 'DELETE_ARTICLE',
   DELETE_ARTICLE_SUCCESS = 'DELETE_ARTICLE_SUCCESS',
   DELETE_ARTICLE_ERROR = 'DELETE_ARTICLE_ERROR',
+  TOGGLE_FAVORITE = 'TOGGLE_FAVORITE',
+  TOGGLE_FAVORITE_SUCCESS = 'TOGGLE_FAVORITE_SUCCESS',
+  TOGGLE_FAVORITE_ERROR = 'TOGGLE_FAVORITE_ERROR',
 }
 
 interface FetchArticleBySlug {
@@ -114,6 +118,21 @@ interface DeleteArticleErrorAction {
   payload: string
 }
 
+interface ToggleFavoriteAction {
+  type: ArticleActionTypes.TOGGLE_FAVORITE
+  payload: string
+}
+
+interface ToggleFavoriteSuccessAction {
+  type: ArticleActionTypes.TOGGLE_FAVORITE_SUCCESS
+  payload: Article
+}
+
+interface ToggleFavoriteErrorAction {
+  type: ArticleActionTypes.TOGGLE_FAVORITE_ERROR
+  payload: string
+}
+
 export type ArticleAction =
   | FetchArticleAction
   | FetchArticleErrorAction
@@ -131,3 +150,6 @@ export type ArticleAction =
   | DeleteArticleAction
   | DeleteArticleSuccessAction
   | DeleteArticleErrorAction
+  | ToggleFavoriteAction
+  | ToggleFavoriteSuccessAction
+  | ToggleFavoriteErrorAction

@@ -6,6 +6,8 @@ export interface AddArticleModuleScss {
   addArticleFormButtonSend: string
   addArticleFormTextarea: string
   addArticleFormTagsContainer: string
+  addArticleFormTagsAdd: string
+  addArticleFormTagsDelete: string
 }
 
 declare const styles: AddArticleModuleScss

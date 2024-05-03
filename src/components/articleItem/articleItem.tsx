@@ -1,6 +1,9 @@
 import React from 'react'
-import { Row, Col, Typography, Tag, Avatar, Card } from 'antd'
+import { Row, Col, Typography, Tag, Avatar, Card, Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
+
+import { useDispatch, useTypedSelector } from '../../hooks/useTypedSelector'
+import { toggleFavorite } from '../../store/action-creators/articles'
 
 import styles from './articleItem.module.scss'
 
@@ -13,14 +16,35 @@ interface ArticleItemProps {
   author: string
   date: string
   likes: number
+  favorited: boolean
 }
 
-const { Text } = Typography
-const ArticleItem: React.FC<ArticleItemProps> = ({ slug, title, description, tags, avatar, author, date, likes }) => {
+const { Title, Text } = Typography
+const ArticleItem: React.FC<ArticleItemProps> = ({
+  slug,
+  title,
+  description,
+  tags,
+  avatar,
+  author,
+  date,
+  likes,
+  favorited,
+}) => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { user } = useTypedSelector((state) => state.users)
 
   const navigateToArticle = () => {
     navigate(`/articles/${slug}`)
+  }
+
+  const handleToggleFavorite = () => {
+    if (!user) {
+      navigate('/sign-in')
+      return
+    }
+    dispatch(toggleFavorite(slug, user.token, favorited))
   }
 
   return (
@@ -28,13 +52,13 @@ const ArticleItem: React.FC<ArticleItemProps> = ({ slug, title, description, tag
       <Row justify="space-between" style={{ width: '100%' }}>
         <Col span={20}>
           <div className={styles['articleItemHeader']}>
-            <h2 onClick={navigateToArticle} className={styles['articleItemHeaderTitle']}>
+            <Title level={2} onClick={navigateToArticle} className={styles['articleItemHeaderTitle']}>
               {title}
-            </h2>
+            </Title>
             <div>
-              <span role="img" aria-label="like" className={styles['articleItemLikes']}>
-                &#9825;
-              </span>
+              <Button onClick={handleToggleFavorite} className={styles['articleItemHeaderLikes']}>
+                {favorited ? '❤️' : '🤍'}
+              </Button>
               {likes}
             </div>
           </div>
@@ -47,8 +71,12 @@ const ArticleItem: React.FC<ArticleItemProps> = ({ slug, title, description, tag
         </Col>
         <Col span={4} className={styles['articleItemAuthor']}>
           <div className={styles['articleItemAuthorInfo']}>
-            <Text strong>{author}</Text>
-            <Text type="secondary">{date}</Text>
+            <Text strong className={styles['articleItemAuthorUsername']}>
+              {author}
+            </Text>
+            <Text type="secondary" className={styles['articleItemAuthorDate']}>
+              {date}
+            </Text>
           </div>
           <Avatar size={46} src={avatar} />
         </Col>

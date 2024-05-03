@@ -4,11 +4,12 @@ import axios from 'axios'
 
 import { ArticleAction, ArticleActionTypes } from '../../types/articlesTypes'
 
-export const fetchArticle = (page = 1, limit = 5) => {
+export const fetchArticle = (page = 1, limit = 5, token: string) => {
   return async (dispatch: Dispatch<ArticleAction>) => {
     try {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLES })
       const response = await axios.get('https://blog.kata.academy/api/articles', {
+        headers: { Authorization: `Token ${token}` },
         params: { offset: (page - 1) * limit, limit: limit },
       })
       dispatch({
@@ -22,11 +23,13 @@ export const fetchArticle = (page = 1, limit = 5) => {
   }
 }
 
-export const fetchArticleBySlug = (slug: string) => {
+export const fetchArticleBySlug = (slug: string, token: string) => {
   return async (dispatch: Dispatch<ArticleAction>) => {
     try {
       dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_BY_SLUG })
-      const response = await axios.get(`https://blog.kata.academy/api/articles/${slug}`)
+      const response = await axios.get(`https://blog.kata.academy/api/articles/${slug}`, {
+        headers: { Authorization: `Token ${token}` },
+      })
       dispatch({
         type: ArticleActionTypes.FETCH_ARTICLE_BY_SLUG_SUCCESS,
         payload: response.data.article,
@@ -109,3 +112,22 @@ export const deleteArticle = (slug: string, token: string, onSuccess: () => void
     })
   }
 }
+
+export const toggleFavorite =
+  (slug: string, token: string, favorited: boolean) => async (dispatch: Dispatch<ArticleAction>) => {
+    dispatch({ type: ArticleActionTypes.TOGGLE_FAVORITE, payload: slug })
+    try {
+      const method = favorited ? 'delete' : 'post'
+      const response = await axios({
+        method,
+        url: `https://blog.kata.academy/api/articles/${slug}/favorite`,
+        headers: { Authorization: `Token ${token}` },
+      })
+      dispatch({ type: ArticleActionTypes.TOGGLE_FAVORITE_SUCCESS, payload: response.data.article })
+    } catch (error) {
+      dispatch({
+        type: ArticleActionTypes.TOGGLE_FAVORITE_ERROR,
+        payload: 'Failed to toggle favorite',
+      })
+    }
+  }

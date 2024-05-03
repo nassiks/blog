@@ -21,7 +21,7 @@ export const registerUser = (username: string, email: string, password: string, 
     } catch (e) {
       dispatch({
         type: UsersActionTypes.REGISTER_USERS_ERROR,
-        payload: 'Произошла ошибка регистрации.',
+        payload: 'Registration error',
       })
     }
   }

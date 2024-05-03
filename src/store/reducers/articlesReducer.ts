@@ -52,6 +52,45 @@ export const articlesReducer = (state = initialState, action: ArticleAction): Ar
       }
     case ArticleActionTypes.DELETE_ARTICLE_ERROR:
       return { ...state, loading: false, error: action.payload }
+    case ArticleActionTypes.TOGGLE_FAVORITE:
+      return {
+        ...state,
+        loading: true,
+      }
+    case ArticleActionTypes.TOGGLE_FAVORITE_SUCCESS: {
+      const updatedArticles = state.articles.map((article) => {
+        if (article.slug === action.payload.slug) {
+          return {
+            ...article,
+            favorited: !article.favorited,
+            favoritesCount: article.favorited ? article.favoritesCount - 1 : article.favoritesCount + 1,
+          }
+        }
+        return article
+      })
+      const updateCurrentArticle =
+        state.currentArticle && state.currentArticle.slug === action.payload.slug
+          ? {
+              ...state.currentArticle,
+              favorited: !state.currentArticle.favorited,
+              favoritesCount: state.currentArticle.favorited
+                ? state.currentArticle.favoritesCount - 1
+                : state.currentArticle.favoritesCount + 1,
+            }
+          : state.currentArticle
+      return {
+        ...state,
+        loading: false,
+        articles: updatedArticles,
+        currentArticle: updateCurrentArticle,
+      }
+    }
+    case ArticleActionTypes.TOGGLE_FAVORITE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      }
     default:
       return state
   }

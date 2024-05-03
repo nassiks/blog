@@ -4,25 +4,25 @@ import Markdown from 'react-markdown'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useDispatch, useTypedSelector } from '../../hooks/useTypedSelector'
-import { deleteArticle, fetchArticleBySlug } from '../../store/action-creators/articles'
+import { deleteArticle, fetchArticleBySlug, toggleFavorite } from '../../store/action-creators/articles'
 import { useNavigation } from '../../hooks/useNavigation'
 import formatDate from '../../utils/formatDate'
 
 import styles from './articlePage.module.scss'
 
-const { Text } = Typography
+const { Title, Text } = Typography
 
 const ArticlePage: React.FC = () => {
   const { currentArticle, loading, error } = useTypedSelector((state) => state.articles)
-  const { user } = useTypedSelector((state) => state.users)
-  const { navigateToArticle } = useNavigation()
+  const { user, token } = useTypedSelector((state) => state.users)
+  const { navigateToArticle, navigateToSignIn } = useNavigation()
   const dispatch = useDispatch()
   const { slug } = useParams()
   const navigate = useNavigate()
 
   const handleDelete = () => {
     if (user && slug) {
-      dispatch(deleteArticle(slug, user.token, navigateToArticle))
+      dispatch(deleteArticle(slug, token, navigateToArticle))
     }
   }
 
@@ -30,11 +30,21 @@ const ArticlePage: React.FC = () => {
     navigate(`/articles/${slug}/edit`)
   }
 
+  const handleToggleFavorite = () => {
+    if (!user) {
+      navigateToSignIn()
+      return
+    }
+    if (currentArticle) {
+      dispatch(toggleFavorite(currentArticle.slug, token, currentArticle.favorited))
+    }
+  }
+
   useEffect(() => {
     if (slug) {
-      dispatch(fetchArticleBySlug(slug))
+      dispatch(fetchArticleBySlug(slug, token))
     }
-  }, [dispatch, slug])
+  }, [dispatch, slug, token])
 
   if (loading) {
     return (
@@ -55,11 +65,13 @@ const ArticlePage: React.FC = () => {
       <Row justify="space-between" style={{ width: '100%' }}>
         <Col span={20}>
           <div className={styles['articleItemHeader']}>
-            <h2 className={styles['articleItemHeaderTitle']}>{currentArticle?.title}</h2>
+            <Title level={2} className={styles['articleItemHeaderTitle']}>
+              {currentArticle?.title}
+            </Title>
             <div>
-              <span role="img" aria-label="like" className={styles['articleItemLikes']}>
-                &#9825;
-              </span>
+              <Button onClick={handleToggleFavorite} className={styles['articleItemHeaderLikes']}>
+                {currentArticle?.favorited ? '❤️' : '🤍'}
+              </Button>
               {currentArticle?.favoritesCount}
             </div>
           </div>
@@ -67,13 +79,17 @@ const ArticlePage: React.FC = () => {
             <div className={styles['articleItemTags']}>
               {currentArticle?.tagList.map((tag, index) => tag.trim() !== '' && <Tag key={index}>{tag}</Tag>)}
             </div>
-            <Text>{currentArticle?.description}</Text>
+            <Text type="secondary" className={styles['articleItemBodyDescription']}>
+              {currentArticle?.description}
+            </Text>
           </div>
         </Col>
         <Col span={4} className={styles['articleItemAuthorContainer']}>
           <div className={styles['articleItemAuthor']}>
             <div className={styles['articleItemAuthorInfo']}>
-              <Text strong>{currentArticle?.author.username}</Text>
+              <Text strong className={styles['articleItemAuthorUsername']}>
+                {currentArticle?.author.username}
+              </Text>
               <Text type="secondary">{formatDate(currentArticle?.createdAt)}</Text>
             </div>
             <Avatar size={46} src={currentArticle?.author.image} />
@@ -88,14 +104,18 @@ const ArticlePage: React.FC = () => {
                 cancelText="No"
                 placement={'right'}
               >
-                <Button danger>Delete</Button>
+                <Button size="middle" danger>
+                  Delete
+                </Button>
               </Popconfirm>
-              <Button onClick={navigateToEditArticle}>Edit</Button>
+              <Button size="middle" onClick={navigateToEditArticle} className={styles['articleItemAuthorEdit']}>
+                Edit
+              </Button>
             </div>
           )}
         </Col>
       </Row>
-      <Markdown>{currentArticle?.body}</Markdown>
+      <Markdown className={styles['articleItemText']}>{currentArticle?.body}</Markdown>
     </Card>
   )
 }

@@ -7,6 +7,9 @@ export interface ArticleItemModuleScss {
   articleItemAuthor: string
   articleItemLikes: string
   articleItemHeaderTitle: string
+  articleItemHeaderLikes: string
+  articleItemAuthorUsername: string
+  articleItemAuthorDate: string
 }
 
 declare const styles: ArticleItemModuleScss
