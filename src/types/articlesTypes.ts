@@ -31,6 +31,15 @@ export enum ArticleActionTypes {
   FETCH_ARTICLES_SUCCESS = 'FETCH_ARTICLES_SUCCESS',
   FETCH_ARTICLES_ERROR = 'FETCH_ARTICLES_ERROR',
   SET_ARTICLES_PAGE = 'SET_ARTICLES_PAGE',
+  CREATE_ARTICLE = 'CREATE_ARTICLE',
+  CREATE_ARTICLE_SUCCESS = 'CREATE_ARTICLE_SUCCESS',
+  CREATE_ARTICLE_ERROR = 'CREATE_ARTICLE_ERROR',
+  UPDATE_ARTICLE = 'UPDATE_ARTICLE',
+  UPDATE_ARTICLE_SUCCESS = 'UPDATE_ARTICLE_SUCCESS',
+  UPDATE_ARTICLE_ERROR = 'UPDATE_ARTICLE_ERROR',
+  DELETE_ARTICLE = 'DELETE_ARTICLE',
+  DELETE_ARTICLE_SUCCESS = 'DELETE_ARTICLE_SUCCESS',
+  DELETE_ARTICLE_ERROR = 'DELETE_ARTICLE_ERROR',
 }
 
 interface FetchArticleBySlug {
@@ -64,6 +73,47 @@ interface SetArticlesPage {
   payload: number
 }
 
+interface CreateArticle {
+  type: ArticleActionTypes.CREATE_ARTICLE
+}
+
+interface CreateArticleSuccess {
+  type: ArticleActionTypes.CREATE_ARTICLE_SUCCESS
+  payload: Article
+}
+
+interface CreateArticleError {
+  type: ArticleActionTypes.CREATE_ARTICLE_ERROR
+  payload: string
+}
+
+interface UpdateArticle {
+  type: ArticleActionTypes.UPDATE_ARTICLE
+}
+
+interface UpdateArticleSuccess {
+  type: ArticleActionTypes.UPDATE_ARTICLE_SUCCESS
+  payload: Article
+}
+
+interface UpdateArticleError {
+  type: ArticleActionTypes.UPDATE_ARTICLE_ERROR
+  payload: string
+}
+
+interface DeleteArticleAction {
+  type: ArticleActionTypes.DELETE_ARTICLE
+}
+
+interface DeleteArticleSuccessAction {
+  type: ArticleActionTypes.DELETE_ARTICLE_SUCCESS
+}
+
+interface DeleteArticleErrorAction {
+  type: ArticleActionTypes.DELETE_ARTICLE_ERROR
+  payload: string
+}
+
 export type ArticleAction =
   | FetchArticleAction
   | FetchArticleErrorAction
@@ -72,3 +122,12 @@ export type ArticleAction =
   | FetchArticleBySlug
   | FetchArticleBySlugError
   | FetchArticleBySlugSuccess
+  | CreateArticle
+  | CreateArticleSuccess
+  | CreateArticleError
+  | UpdateArticle
+  | UpdateArticleSuccess
+  | UpdateArticleError
+  | DeleteArticleAction
+  | DeleteArticleSuccessAction
+  | DeleteArticleErrorAction

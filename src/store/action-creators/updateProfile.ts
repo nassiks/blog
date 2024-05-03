@@ -6,7 +6,8 @@ import { UsersActionTypes, UsersAction } from '../../types/usersTypes'
 
 export const updateProfile = (
   userData: { username: string; email: string; password: string; image: string },
-  token: string
+  token: string,
+  onSuccess: () => void
 ) => {
   return async (dispatch: Dispatch<UsersAction>) => {
     try {
@@ -31,6 +32,7 @@ export const updateProfile = (
       })
       localStorage.setItem('token', JSON.stringify(response.data.user.token))
       localStorage.setItem('user', JSON.stringify(response.data.user))
+      onSuccess()
     } catch (error) {
       dispatch({
         type: UsersActionTypes.UPDATE_USER_ERROR,

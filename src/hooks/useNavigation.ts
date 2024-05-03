@@ -19,5 +19,15 @@ export function useNavigation() {
     navigate('/profile')
   }
 
-  return { navigateToSignUp, navigateToSignIn, navigateToArticle, navigateToProfile }
+  const navigateToCreateArticle = () => {
+    navigate('/new-article')
+  }
+
+  return {
+    navigateToSignUp,
+    navigateToSignIn,
+    navigateToArticle,
+    navigateToProfile,
+    navigateToCreateArticle,
+  }
 }

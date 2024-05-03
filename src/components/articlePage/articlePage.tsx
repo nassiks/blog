@@ -1,19 +1,34 @@
 import React, { useEffect } from 'react'
-import { Alert, Avatar, Card, Col, Row, Spin, Tag, Typography } from 'antd'
+import { Alert, Avatar, Button, Card, Col, Popconfirm, Row, Spin, Tag, Typography } from 'antd'
 import Markdown from 'react-markdown'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { useDispatch, useTypedSelector } from '../../hooks/useTypedSelector'
-import { fetchArticleBySlug } from '../../store/action-creators/articles'
-import styles from '../articleItem/articleItem.module.scss'
+import { deleteArticle, fetchArticleBySlug } from '../../store/action-creators/articles'
+import { useNavigation } from '../../hooks/useNavigation'
 import formatDate from '../../utils/formatDate'
+
+import styles from './articlePage.module.scss'
 
 const { Text } = Typography
 
 const ArticlePage: React.FC = () => {
   const { currentArticle, loading, error } = useTypedSelector((state) => state.articles)
+  const { user } = useTypedSelector((state) => state.users)
+  const { navigateToArticle } = useNavigation()
   const dispatch = useDispatch()
   const { slug } = useParams()
+  const navigate = useNavigate()
+
+  const handleDelete = () => {
+    if (user && slug) {
+      dispatch(deleteArticle(slug, user.token, navigateToArticle))
+    }
+  }
+
+  const navigateToEditArticle = () => {
+    navigate(`/articles/${slug}/edit`)
+  }
 
   useEffect(() => {
     if (slug) {
@@ -32,6 +47,8 @@ const ArticlePage: React.FC = () => {
   if (error) {
     return <Alert message="Error" description={error} type="error" showIcon closable />
   }
+
+  const isCurrentUserAuthor = user?.username === currentArticle?.author.username
 
   return (
     <Card className={styles['articleItem']} style={{ height: '807px' }}>
@@ -53,12 +70,29 @@ const ArticlePage: React.FC = () => {
             <Text>{currentArticle?.description}</Text>
           </div>
         </Col>
-        <Col span={4} className={styles['articleItemAuthor']}>
-          <div className={styles['articleItemAuthorInfo']}>
-            <Text strong>{currentArticle?.author.username}</Text>
-            <Text type="secondary">{formatDate(currentArticle?.createdAt)}</Text>
+        <Col span={4} className={styles['articleItemAuthorContainer']}>
+          <div className={styles['articleItemAuthor']}>
+            <div className={styles['articleItemAuthorInfo']}>
+              <Text strong>{currentArticle?.author.username}</Text>
+              <Text type="secondary">{formatDate(currentArticle?.createdAt)}</Text>
+            </div>
+            <Avatar size={46} src={currentArticle?.author.image} />
           </div>
-          <Avatar size={46} src={currentArticle?.author.image} />
+          {isCurrentUserAuthor && (
+            <div className={styles['articleItemAuthorButton']}>
+              <Popconfirm
+                title="Delete the task"
+                description="Are you sure to delete this task?"
+                onConfirm={handleDelete}
+                okText="Yes"
+                cancelText="No"
+                placement={'right'}
+              >
+                <Button danger>Delete</Button>
+              </Popconfirm>
+              <Button onClick={navigateToEditArticle}>Edit</Button>
+            </div>
+          )}
         </Col>
       </Row>
       <Markdown>{currentArticle?.body}</Markdown>

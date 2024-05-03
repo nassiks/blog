@@ -10,13 +10,15 @@ import styles from './appHeader.module.scss'
 const { Title, Text } = Typography
 const AppHeader: React.FC = () => {
   const { user } = useTypedSelector((state) => state.users)
-  const { navigateToArticle, navigateToProfile, navigateToSignIn, navigateToSignUp } = useNavigation()
+  const { navigateToArticle, navigateToProfile, navigateToSignIn, navigateToSignUp, navigateToCreateArticle } =
+    useNavigation()
   console.log('User >> ', user)
   const dispatch = useDispatch()
   const handleLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     dispatch(logoutUser())
+    navigateToArticle()
   }
 
   return (
@@ -26,7 +28,7 @@ const AppHeader: React.FC = () => {
       </Title>
       {user ? (
         <div className={styles['appHeaderAuth']}>
-          <Button>Create article</Button>
+          <Button onClick={navigateToCreateArticle}>Create article</Button>
           <div className={styles['appHeaderAuthAuthor']} onClick={navigateToProfile}>
             <Text>{user.username}</Text>
             <Avatar size={46} src={user.image} />

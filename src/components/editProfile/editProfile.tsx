@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card, Form, Input } from 'antd'
+import { Button, Card, Form, Input, message } from 'antd'
 
 import { useDispatch, useTypedSelector } from '../../hooks/useTypedSelector'
 import { updateProfile } from '../../store/action-creators/updateProfile'
@@ -17,10 +17,14 @@ const EditProfile: React.FC = () => {
   const dispatch = useDispatch()
   const { user } = useTypedSelector((state) => state.users)
 
-  const onFinish = (values: editProfileFormData) => {
+  const handleFinish = (values: editProfileFormData) => {
     const { username, email, password, image } = values
     if (user) {
-      dispatch(updateProfile({ username, email, password, image }, user.token))
+      dispatch(
+        updateProfile({ username, email, password, image }, user.token, () => {
+          message.success('Profile updated successfully!')
+        })
+      )
     }
     console.log('EditIn >>', values)
   }
@@ -28,7 +32,7 @@ const EditProfile: React.FC = () => {
   return (
     <Card className={styles['formContainer']}>
       <h2 className={styles['formTitle']}>Edit Profile</h2>
-      <Form className={styles['formSign']} layout="vertical" onFinish={onFinish}>
+      <Form className={styles['formSign']} layout="vertical" onFinish={handleFinish}>
         <Form.Item
           label="Username"
           name="username"
