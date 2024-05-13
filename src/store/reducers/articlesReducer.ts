@@ -5,7 +5,7 @@ const initialState: ArticleState = {
   articles: [],
   loading: false,
   error: null,
-  page: 1,
+  page: Number(localStorage.getItem('currentPage')) || 1,
   articlesCount: 0,
 }
 

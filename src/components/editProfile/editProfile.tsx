@@ -26,7 +26,6 @@ const EditProfile: React.FC = () => {
         })
       )
     }
-    console.log('EditIn >>', values)
   }
 
   return (
@@ -40,6 +39,7 @@ const EditProfile: React.FC = () => {
             { required: true, message: 'Please input your username!' },
             { min: 3, message: 'Username must be at least 3 characters long' },
             { max: 20, message: 'Username cannot exceed 20 characters' },
+            { whitespace: true, message: 'Cannot be blank!' },
           ]}
         >
           <Input placeholder="Username" />

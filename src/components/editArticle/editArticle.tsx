@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Form, Input, message, Space, Tag } from 'antd'
+import { Button, Card, Form, Input, Space, Tag } from 'antd'
 import { useParams } from 'react-router-dom'
 
 import { useDispatch, useTypedSelector } from '../../hooks/useTypedSelector'
 import { updateArticle } from '../../store/action-creators/articles'
+import { useNavigation } from '../../hooks/useNavigation'
 
 import styles from './editArticle.module.scss'
 
@@ -19,25 +20,28 @@ const EditArticle: React.FC = () => {
   const { slug } = useParams()
   const article = useTypedSelector((state) => state.articles.currentArticle)
   const { user } = useTypedSelector((state) => state.users)
+  const { navigateToArticle } = useNavigation()
 
   const [inputTag, setInputTag] = useState('')
   const [tags, setTags] = useState<string[]>([])
+  const [form] = Form.useForm()
   const handleFinish = (values: editArticleFormDate) => {
     const { title, description, body } = values
     if (user && slug) {
-      dispatch(
-        updateArticle(slug, { title, description, body, tagList: tags }, user.token, () => {
-          message.success('Article updated successfully!')
-        })
-      )
+      dispatch(updateArticle(slug, { title, description, body, tagList: tags }, user.token, navigateToArticle))
     }
   }
 
   useEffect(() => {
-    if (article && article.tagList) {
-      setTags(article.tagList)
+    if (article) {
+      setTags(article.tagList || [])
+      form.setFieldsValue({
+        title: article.title,
+        description: article.description,
+        body: article.body,
+      })
     }
-  }, [article])
+  }, [article, form])
 
   const handleAddTag = () => {
     if (inputTag && !tags.includes(inputTag)) {
@@ -53,25 +57,46 @@ const EditArticle: React.FC = () => {
   return (
     <Card className={styles['editArticleFormContainer']}>
       <h2 className={styles['editArticleFormTitle']}>Edit article</h2>
-      <Form layout="vertical" className={styles['editArticleForm']} onFinish={handleFinish}>
-        <Form.Item label="Title" name="title" rules={[{ required: true, message: 'Please input title!' }]}>
+      <Form layout="vertical" form={form} className={styles['editArticleForm']} onFinish={handleFinish}>
+        <Form.Item
+          label="Title"
+          name="title"
+          rules={[
+            { required: true, message: 'Please input title!' },
+            { whitespace: true, message: 'Cannot be blank!' },
+          ]}
+        >
           <Input placeholder="Title" />
         </Form.Item>
 
         <Form.Item
           label="Short description"
           name="description"
-          rules={[{ required: true, message: 'Please input short description!' }]}
+          rules={[
+            { required: true, message: 'Please input short description!' },
+            { whitespace: true, message: 'Cannot be blank!' },
+          ]}
         >
           <Input placeholder="Short description" />
         </Form.Item>
 
-        <Form.Item label="Text" name="body" rules={[{ required: true, message: 'Please input text!' }]}>
+        <Form.Item
+          label="Text"
+          name="body"
+          rules={[
+            { required: true, message: 'Please input text!' },
+            { whitespace: true, message: 'Cannot be blank!' },
+          ]}
+        >
           <Input.TextArea placeholder="Text" className={styles['editArticleFormTextarea']} />
         </Form.Item>
 
         <div className={styles['editArticleFormTagsContainer']}>
-          <Form.Item label="Tags" name="tags" rules={[{ required: false }]}>
+          <Form.Item
+            label="Tags"
+            name="tags"
+            rules={[{ required: false }, { whitespace: true, message: 'Cannot be blank!' }]}
+          >
             <Space direction="vertical" wrap>
               {tags.map((tag, index) => (
                 <div key={index} className={styles['editArticleFormTagsDelete']}>

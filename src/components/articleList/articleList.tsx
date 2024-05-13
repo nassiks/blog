@@ -13,9 +13,12 @@ const ArticleList: React.FC = () => {
   const { articles, loading, error, page, articlesCount } = useTypedSelector((state) => state.articles)
   const dispatch = useDispatch()
   const { token } = useTypedSelector((state) => state.users)
+
+  const currentPage = Number(localStorage.getItem('currentPage')) || 1
+
   useEffect(() => {
-    dispatch(fetchArticle(page, 5, token))
-  }, [page, dispatch, token])
+    dispatch(fetchArticle(currentPage, 5, token))
+  }, [dispatch, token])
 
   if (loading) {
     return (
@@ -29,9 +32,10 @@ const ArticleList: React.FC = () => {
     return <Alert message="Error" description={error} type="error" showIcon closable />
   }
 
-  const handlePageChange = (page: number) => {
-    dispatch(fetchArticle(page, 5, token))
-    dispatch(setArticleList(page))
+  const handlePageChange = (newPage: number) => {
+    localStorage.setItem('currentPage', newPage.toString())
+    dispatch(fetchArticle(newPage, 5, token))
+    dispatch(setArticleList(newPage))
   }
 
   return (
@@ -56,7 +60,7 @@ const ArticleList: React.FC = () => {
       />
       <Pagination
         className={styles['articleListPagination']}
-        current={page}
+        current={page || currentPage}
         total={articlesCount}
         pageSize={5}
         onChange={handlePageChange}
